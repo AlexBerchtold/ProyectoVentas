@@ -1,6 +1,10 @@
 package controlador;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import interfaces.InterfaceABM;
+import util.FechaUtil;
 import vista.ClienteVista;
 
 public class ClienteController implements InterfaceABM {
@@ -11,11 +15,17 @@ public class ClienteController implements InterfaceABM {
 		super();
 		this.vista = clienteVista;
 		this.vista.setInterfaceABM(this);
+		
+		vista.getTfFecha().setText(FechaUtil.fechaAString(LocalDate.now()));
+		
+		vista.getTfHora().setText(FechaUtil.horaAString(LocalTime.now()));
+		
 	}
 
 	@Override
 	public void nuevo() {
-		System.out.println("Nuevo");
+		System.out.println(vista.getTfFecha().getText());
+		
 	}
 
 	@Override
