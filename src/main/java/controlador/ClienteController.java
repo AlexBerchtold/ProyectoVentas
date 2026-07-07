@@ -33,19 +33,20 @@ public class ClienteController implements InterfaceABM {
 		cargarTabla("");
 		setAcciones();
 	}
-	
+
 	private void setAcciones() {
 		this.vista.getTabla().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(e.getClickCount()==2) seleccionarRegistro();
+				if (e.getClickCount() == 2)
+					seleccionarRegistro();
 			}
 		});
 
 	}
-	
+
 	private void cargarTabla(String filtro) {
-		clientes = dao.recuperarTodo();
+		clientes = dao.buscarPorFiltro(filtro);
 		tabla.setLista(clientes);
 	}
 
@@ -104,12 +105,13 @@ public class ClienteController implements InterfaceABM {
 		this.vista.getTfFechaRegistro().setText(FechaUtil.fechaAString(LocalDate.now()));
 
 	}
-	
+
 	private void seleccionarRegistro() {
 		int fila = this.vista.getTabla().getSelectedRow();
-		if(fila < 0) return;
+		if (fila < 0)
+			return;
 		cliente = clientes.get(fila);
-		
+
 		this.vista.getTfFechaRegistro().setText(FechaUtil.fechaAString(cliente.getFechaRegistro()));
 		this.vista.getTfNombre().setText(cliente.getNombre());
 		this.vista.getTfApellido().setText(cliente.getApellido());
@@ -118,21 +120,38 @@ public class ClienteController implements InterfaceABM {
 		this.vista.getTfCorreo().setText(cliente.getCorreo());
 		this.vista.getTfFechaNacimiento().setText(FechaUtil.fechaAString(cliente.getFechaNacimiento()));
 		this.vista.getTfDireccion().setText(cliente.getDireccion());
-		
+
 		this.vista.getBtnNuevo().setEnabled(false);
 		this.vista.getBtnEditar().setEnabled(true);
 		this.vista.getBtnEliminar().setEnabled(true);
-		
+
 	}
 
 	@Override
 	public void editar() {
-		System.out.println("editar");
-
+		this.vista.getTfFechaRegistro().setEnabled(false);
+		this.vista.getTfNombre().setEnabled(true);
+		this.vista.getTfApellido().setEnabled(true);
+		this.vista.getTfDocumento().setEnabled(true);
+		this.vista.getTfFechaNacimiento().setEnabled(true);
+		this.vista.getTfCorreo().setEnabled(true);
+		this.vista.getTfDireccion().setEnabled(true);
+		this.vista.getTfTelefono().setEnabled(true);
+		
+		this.vista.getBtnNuevo().setEnabled(false);
+		this.vista.getBtnEditar().setEnabled(false);
+		this.vista.getBtnGuardar().setEnabled(true);
+		this.vista.getBtnEliminar().setEnabled(false);
+		
 	}
 
 	@Override
 	public void guardar() {
+		
+		if(this.vista.getTfNombre().getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "El nombre es un campo obligatorio");
+			return;
+		}
 
 		cliente.setFechaRegistro(FechaUtil.stringAFecha(this.vista.getTfFechaRegistro().getText()));
 		cliente.setFechaNacimiento(FechaUtil.stringAFecha(this.vista.getTfFechaNacimiento().getText()));
@@ -155,10 +174,11 @@ public class ClienteController implements InterfaceABM {
 
 	@Override
 	public void eliminar() {
-		if(cliente==null) return;
-		int confirmacion = JOptionPane.showConfirmDialog(null,"Estas seguro que deseas eliminar al cliente "
-				+ cliente.getNombre()+" "+cliente.getApellido()+"?", "Atención", JOptionPane.YES_NO_OPTION);
-		if(confirmacion == JOptionPane.YES_OPTION) {
+		if (cliente == null)
+			return;
+		int confirmacion = JOptionPane.showConfirmDialog(null, "Estas seguro que deseas eliminar al cliente "
+				+ cliente.getNombre() + " " + cliente.getApellido() + "?", "Atención", JOptionPane.YES_NO_OPTION);
+		if (confirmacion == JOptionPane.YES_OPTION) {
 			try {
 				dao.eliminar(cliente);
 				estadoInicial();
@@ -179,7 +199,7 @@ public class ClienteController implements InterfaceABM {
 
 	@Override
 	public void buscar() {
-		System.out.println("Buscar");
+		cargarTabla(vista.getTfBuscador().getText());
 	}
 
 }
