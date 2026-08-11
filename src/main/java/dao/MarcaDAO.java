@@ -15,7 +15,7 @@ public class MarcaDAO extends GenericDAO<MarcaModelo> {
 	
 	public List<MarcaModelo> buscarPorFiltro(String filtro){
 		try(Session session = getSession()){
-			String hql = "FROM tb_Marcaas WHERE nombre ILIKE :filtro ORDER BY id";
+			String hql = "FROM tb_marcas WHERE nombre ILIKE :filtro ORDER BY id";
 			Query<MarcaModelo> query = session.createQuery(hql, MarcaModelo.class);
 			query.setParameter("filtro", "%"+filtro+"%");
 			return query.getResultList();
