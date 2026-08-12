@@ -1,6 +1,6 @@
 package modelo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -21,13 +21,13 @@ public class VentaModelo {
 	private Integer id;
 	
 	@Column(nullable = false)
-	private LocalDate fecha;
+	private LocalDateTime fecha;
 	
 	@Column(nullable = false)
 	private Double total;
 	
 	@Column
-	private LocalDate fechaRegistro;
+	private LocalDateTime fechaRegistro;
 	
 	@Column
 	private Boolean anulada;
@@ -53,11 +53,11 @@ public class VentaModelo {
 		this.id = id;
 	}
 
-	public LocalDate getFecha() {
+	public LocalDateTime getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(LocalDate fecha) {
+	public void setFecha(LocalDateTime fecha) {
 		this.fecha = fecha;
 	}
 
@@ -69,11 +69,11 @@ public class VentaModelo {
 		this.total = total;
 	}
 
-	public LocalDate getFechaRegistro() {
+	public LocalDateTime getFechaRegistro() {
 		return fechaRegistro;
 	}
 
-	public void setFechaRegistro(LocalDate fechaRegistro) {
+	public void setFechaRegistro(LocalDateTime fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
 
