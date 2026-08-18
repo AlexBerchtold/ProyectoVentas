@@ -22,5 +22,20 @@ public class ClienteDAO extends GenericDAO<ClienteModelo> {
 			return query.getResultList();
 		}
 	}
+	
+	public ClienteModelo buscarClientePorCedula(String filtro){
+		try(Session session = getSession()){
+			String hql = "FROM tb_clientes WHERE documento ILIKE :filtro ORDER BY id";
+			Query<ClienteModelo> query = session.createQuery(hql, ClienteModelo.class);
+			query.setParameter("filtro", filtro);			
+			ClienteModelo cliente;
+			try {
+				cliente = query.getSingleResult();
+			} catch (Exception e) {
+				cliente = null;
+			}
+			return cliente;
+		}
+	}
 
 }
