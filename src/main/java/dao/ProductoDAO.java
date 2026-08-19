@@ -22,5 +22,20 @@ public class ProductoDAO extends GenericDAO<ProductoModelo> {
 			return query.getResultList();
 		}
 	}
+	
+	public ProductoModelo buscarProductoPorCodigo(String filtro){
+		try(Session session = getSession()){
+			String hql = "FROM tb_productos WHERE codigo ILIKE :filtro ORDER BY id";
+			Query<ProductoModelo> query = session.createQuery(hql, ProductoModelo.class);
+			query.setParameter("filtro", filtro);
+			ProductoModelo producto;
+			try {
+				producto = query.getSingleResult();
+			} catch (Exception e) {
+				producto = null;
+			}
+			return producto;
+		}
+	}
 
 }

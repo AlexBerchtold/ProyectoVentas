@@ -26,7 +26,7 @@ public class ProductoModelo {
 	@Column(nullable = false)
 	private Double stock;
 	
-	@Column(nullable = false)
+	@Column()
 	private String unidadMedida;
 	
 	@Column
